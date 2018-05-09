@@ -9,8 +9,8 @@ services:
     ports:
       - "80:80"
     volumes:
-      - /vagrant/dockers/nginx/conf.d:/etc/nginx/conf.d
-      - /vagrant/dockers/nginx/log:/var/log/nginx
+      - /ExpressStationery/dockers/nginx/conf.d:/etc/nginx/conf.d
+      - /ExpressStationery/dockers/nginx/log:/var/log/nginx
     networks:
       - app_network
 
@@ -22,8 +22,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - /vagrant/dockers/node/src:/var/node/src
-      - /vagrant/dockers/node/log:/var/log/node
+      - /ExpressStationery/dockers/node/src:/var/node/src
+      - /ExpressStationery/dockers/node/log:/var/log/node
     working_dir: /var/node/src
     networks:
       - app_network
@@ -36,7 +36,7 @@ services:
       - "27017:27017"
     volumes:
       - datastrage:/data/db
-      - /vagrant/dockers/mongodb/log:/var/log/mongodb
+      - /ExpressStationery/dockers/mongodb/log:/var/log/mongodb
     networks:
       - app_network
     command: "bash -c 'mongod --logpath=/var/log/mongodb/mongodb.log --logappend'"
