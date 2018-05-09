@@ -1,0 +1,48 @@
+version: '3'
+services:
+
+  nginx:
+    image: nginx:1.13.3
+    container_name: nginx
+    depends_on:
+      - "node_app"
+    ports:
+      - "80:80"
+    volumes:
+      - /vagrant/dockers/nginx/conf.d:/etc/nginx/conf.d
+      - /vagrant/dockers/nginx/log:/var/log/nginx
+    networks:
+      - app_network
+
+  node_app:
+    image: node:8.5.0
+    container_name: node_app
+    depends_on:
+      - "mongodb"
+    ports:
+      - "8080:8080"
+    volumes:
+      - /vagrant/dockers/node/src:/var/node/src
+      - /vagrant/dockers/node/log:/var/log/node
+    working_dir: /var/node/src
+    networks:
+      - app_network
+    command: "bash -c 'npm install && npm start'"
+
+  mongodb:
+    image: mongo:3.4.7
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - datastrage:/data/db
+      - /vagrant/dockers/mongodb/log:/var/log/mongodb
+    networks:
+      - app_network
+    command: "bash -c 'mongod --logpath=/var/log/mongodb/mongodb.log --logappend'"
+
+volumes:
+  datastrage:
+
+networks:
+  app_network:
